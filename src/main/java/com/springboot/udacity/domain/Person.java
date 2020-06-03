@@ -1,13 +1,9 @@
 package com.springboot.udacity.domain;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * Created by aduraisamy on 1/1/2017.
- */
 @Entity
 public class Person {
     @Id

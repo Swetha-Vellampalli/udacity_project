@@ -1,9 +1,9 @@
 package com.springboot.udacity.controller;
 
-import com.springboot.study.assembler.PersonAssembler;
-import com.springboot.study.domain.Person;
-import com.springboot.study.dto.PersonDTO;
-import com.springboot.study.repository.PersonRepository;
+import com.springboot.udacity.assembler.PersonAssembler;
+import com.springboot.udacity.domain.Person;
+import com.springboot.udacity.dto.PersonDTO;
+import com.springboot.udacity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
