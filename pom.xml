@@ -100,24 +100,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-maven-plugin</artifactId>
-                <version>3.2.7</version>
-                <configuration>
-                    <customizer>
-                        <java.app.mainClass>com.springboot.study.SpringBootHelloWorldApplication</java.app.mainClass>
-                    </customizer>
-                    <images>
-                        <image>
-                            <name>${project.artifactId}:${project.version}</name>
-                            <build>
-                                <from>arun4d/docker-centos-java8</from>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 
