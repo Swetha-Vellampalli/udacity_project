@@ -15,13 +15,16 @@ before_install:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl
-  - ./mvnw clean install -B
-  - ./mvnw clean package
 
+script:
+  - ./mvnw clean install -B
+  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package
 
 install:
-  - docker-compose build --parallel
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push swetha29vellampalli/spring-boot-udacity
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export IMAGE_NAME=swetha29vellampalli/spring-boot-udacity
+  - docker build -t $IMAGE_NAME .
+  - docker push $IMAGE_NAME
 
 
