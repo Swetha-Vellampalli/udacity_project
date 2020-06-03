@@ -1,5 +1,5 @@
 version: '3.6'
-# Deploys Spring Music app with in-memory persistence
+# Deploys the app with in-memory persistence
 #
 # usage:
 # sudo docker-compose build
