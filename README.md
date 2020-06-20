@@ -2,8 +2,7 @@
 This spring boot application contains following
 1. H2 in memory database to store values
 2. flyway data migration
-3. docker-maven-plugin used to build docker images locally.
-5. Push the docker images to Docker hub
+5. Build and Push the docker images to Docker hub
 4. Deploy the image to a EKS Kubernetes Cluster
 5. Run the app
  
