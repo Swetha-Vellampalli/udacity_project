@@ -16,6 +16,7 @@ before_install:
   - chmod +x ./aws-iam-authenticator
   - sudo mv -v ./aws-iam-authenticator /usr/local/bin
   - cd $TRAVIS_BUILD_DIR
+  - ls -lrt
   - chmod +x credentials.sh
   - sh credentials.sh
   - aws eks --region us-east-2 update-kubeconfig --name springbootapp
