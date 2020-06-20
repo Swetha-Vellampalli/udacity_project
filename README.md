@@ -59,6 +59,23 @@ kubectl get pods --watch
 NAME                          READY   STATUS    RESTARTS   AGE
 kubernetes1-c75fd49b7-4vggj   1/1     Running   0          41m
 
+$ kubectl get all
+NAME                               READY   STATUS    RESTARTS   AGE
+pod/kubernetes1-6456498687-m98ff   1/1     Running   0          89s
+
+NAME                  TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)        AGE
+service/kubernetes    ClusterIP      10.100.0.1      <none>                                                                   443/TCP        3h10m
+service/kubernetes1   LoadBalancer   10.100.183.84   a0176707303f34b66ac3fb5a00210a36-658487547.us-east-2.elb.amazonaws.com   80:30440/TCP   129m
+
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kubernetes1   1/1     1            1           129m
+
+NAME                                     DESIRED   CURRENT   READY   AGE
+replicaset.apps/kubernetes1-6456498687   1         1         1       89s
+
+### Logs
+Local logs are in /usr/tmp/logs/app.log
+The logs on AWS EKS are sent to Cloudwatch service and it can be monitored from there.
 
 ### Rolling Update and 2 versions of the application
 To deploy two version of a microservice at the same time. 
