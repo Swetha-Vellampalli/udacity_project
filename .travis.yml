@@ -32,7 +32,7 @@ after_success:
   - docker build -t swetha29vellampalli/spring-boot-udacity .
   - docker push swetha29vellampalli/spring-boot-udacity
   - cd $TRAVIS_BUILD_DIR
-  - kubectl apply -f kubernetes-deployment.yml
-  - kubectl apply -f kubernetes-service.yml
+  - kubectl apply -f kubernetes-deployment.yaml
+  - kubectl apply -f kubernetes-service.yaml
 
 
