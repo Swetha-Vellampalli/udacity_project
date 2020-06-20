@@ -6,15 +6,18 @@ services: docker
 env:
   - DOCKER_COMPOSE_VERSION=1.23.2
 
-  #before_install:
-  #- docker -v && docker-compose -v
-  #- sudo rm /usr/local/bin/docker-compose
-  #- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  #- chmod +x docker-compose
-  #- sudo mv docker-compose /usr/local/bin
-  #- curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  #- chmod +x ./kubectl
-  #- sudo mv ./kubectl /usr/local/bin/kubectl
+before_install:
+  - pip install awscli --upgrade --user
+  - sudo curl --location -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
+  - sudo chmod +x /usr/local/bin/kubectl
+  - curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+  - sudo mv -v /tmp/eksctl /usr/local/bin
+  - curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+  - chmod +x ./aws-iam-authenticator
+  - sudo mv -v ./aws-iam-authenticator /usr/local/bin
+  - sh aws_credentials.sh
+  - aws eks --region us-east-2 update-kubeconfig --name springbootapp
+
 
 script:
   - ./mvnw clean install -B
@@ -25,5 +28,7 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - docker build -t swetha29vellampalli/spring-boot-udacity .
   - docker push swetha29vellampalli/spring-boot-udacity
+  - kubectl apply -f kubernetes-deployment.yml
+  - kubectl apply -f kubernetes-service.yml
 
 

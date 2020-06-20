@@ -1,8 +1,11 @@
-# Spring-Boot-Docker
+# Spring-Boot-Docker-Kubernetes
 This spring boot application contains following
 1. H2 in memory database to store values
 2. flyway data migration
 3. docker-maven-plugin used to build docker images locally.
+5. Push the docker images to Docker hub
+4. Deploy the image to a EKS Kubernetes Cluster
+5. Run the app
  
 ### Environment Setup
 Install docker toolbox
@@ -19,11 +22,44 @@ $docker images
 
 docker-compose up
 
+### Create a VPC
+From Amazon CLoud Formation this can be created which protects communication between worker nodes 
+and the AWS Kubernetes API server— for our EKS cluster.
+THis is the template which is used
+https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-03-23/amazon-eks-vpc-sample.yaml
+
+### Create the cluster
+aws eks --region us-east-2 create-cluster 
+--name springbootapp 
+--role-arn arn:aws:iam::983182628457:role/eks_cluster1 
+--resources-vpc-config subnetIds=subnet-025b1fe3a46998615,subnet-07aef142022918464,
+subnet-00205b6180fd880c6,securityGroupIds=sg-070dff67ef79f2799
+
+### Launch the EKS worker nodes
+THis can be done from the cloudformation service in AWS and use the following template
+https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup.yaml
+ClusterName – the name of your Kubernetes cluster eg: spring boot app
+ClusterControlPlaneSecurityGroup – the same security group you used for creating the cluster in previous step.
+NodeGroupName – a name for your node group.
+NodeInstanceType – leave as-is. The instance type used for the worker nodes.
+KeyName – the name of an Amazon EC2 SSH key pair for connecting with the worker nodes once they launch.
+VpcId – enter the ID of the VPC you created from create VPC step
+Subnets – select the three subnets you created in create VPC step.
 
 
+Apply the AWS Authenticator Config map
+kubectl apply -f aws-auth-cm.yaml
 
- > Note: Run `docker-machine env default` in the cmd / bash to identify the docker.
- 
+Deploy to kubernetes:
+kubectl apply -f kubernetes-deployment.yaml
+kubectl apply -f kubernetes-service.yaml
+
+###
+VErify the status of the pods 
+kubectl get pods --watch
+NAME                          READY   STATUS    RESTARTS   AGE
+kubernetes1-c75fd49b7-4vggj   1/1     Running   0          41m
+
 ### H2 database Configuration
 
 * The default h2 console url to run this spring boot application in local environment
@@ -33,16 +69,6 @@ docker-compose up
     ````
     > Note: Port is based on SERVER.PORT configuration. Default spring boot server port 8080
 
-
-* If this application running in docker. 
-
-    ````
-    $ docker-machine  ip default
-    192.168.99.100
-    
-    http://192.168.99.100:10000/console/
-    ````
-    > Note: Assumed that `default` docker machine  is used. If different docker machine used use `docker-machine  ip <docker-machine name>`
 
 * Use the following details to connect to the database.
 
@@ -55,6 +81,6 @@ docker-compose up
 
 Open the browser and hit the following url to invoke the service.
 ````
-http://192.168.99.100:10000/person?firstName=s&lastName=v
+http://<url>>/person?firstName=udacity&lastName=finalproject
 ````
-
+THis is a post request which would create the person with those 2 namesgit s
