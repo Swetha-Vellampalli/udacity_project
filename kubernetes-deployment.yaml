@@ -13,6 +13,12 @@ spec:
     metadata:
       labels:
         app: kubernetes1
+        version: 0.0.1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
     spec:
       containers:
         - name: kubernetes1

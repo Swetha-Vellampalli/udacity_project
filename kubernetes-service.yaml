@@ -5,6 +5,7 @@ metadata:
 spec:
   selector:
     app: kubernetes1
+    version: 0.0.1
   ports:
     - port: 80
       targetPort: 8080

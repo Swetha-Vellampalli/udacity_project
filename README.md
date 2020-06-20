@@ -54,11 +54,21 @@ Deploy to kubernetes:
 kubectl apply -f kubernetes-deployment.yaml
 kubectl apply -f kubernetes-service.yaml
 
-###
-VErify the status of the pods 
+### verify the status of the pods
+Verify the status of the pods 
 kubectl get pods --watch
 NAME                          READY   STATUS    RESTARTS   AGE
 kubernetes1-c75fd49b7-4vggj   1/1     Running   0          41m
+
+
+### Rolling Update and 2 versions of the application
+To deploy two version of a microservice at the same time. 
+Update the kubernetes-deployment.yaml file of the microservice with the new version number.
+Travis pipeline will rebuild the image and update the deployment to run the two version at the same time. 
+Update the kubernetes-deployment.yaml file for the microservice with the new version number. The travis
+pipeline will send kubectl apply command to update the service, and traffic will be redirected to the new version .
+To Rollback, change back the verion number in service.yml for the microservice to previous version number and re-trigger the pipeline.
+All the update and rollback will occur without downtime.
 
 ### H2 database Configuration
 
