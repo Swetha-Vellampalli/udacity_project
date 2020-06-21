@@ -13,13 +13,13 @@ Install docker toolbox
 
 ### Maven Install
 https://fabianlee.org/2018/05/24/docker-running-a-spring-boot-based-app-using-docker-compose/
-Maven command to build the docker image.
- docker-compose build
-Validate the build with:
+Build the project using mvn clean install
+command ti build the docker image.
+docker build -t swetha29vellampalli/spring-boot-udacity .
 
+Validate the build with
 $docker images
 
-docker-compose up
 
 ### Create a VPC
 From Amazon CLoud Formation this can be created which protects communication between worker nodes 
@@ -86,16 +86,11 @@ pipeline will send kubectl apply command to update the service, and traffic will
 To Rollback, change back the verion number in service.yml for the microservice to previous version number and re-trigger the pipeline.
 All the update and rollback will occur without downtime.
 
+### CI/CD tool
+Travis tool is used to build the docker image, push it to docker hub
+Deploy it to AWS- EKS cluster worker nodes.
+
 ### H2 database Configuration
-
-* The default h2 console url to run this spring boot application in local environment
-
-    ````
-    http://localhost:10000/console/
-    ````
-    > Note: Port is based on SERVER.PORT configuration. Default spring boot server port 8080
-
-
 * Use the following details to connect to the database.
 
     ````
@@ -109,4 +104,5 @@ Open the browser and hit the following url to invoke the service.
 ````
 http://<url>>/person?firstName=udacity&lastName=finalproject
 ````
-THis is a post request which would create the person with those 2 namesgit s
+THis is a post request which would create the person with those 2 names.The data would be persisted in the
+inmemory H2 database
