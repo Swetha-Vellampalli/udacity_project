@@ -75,7 +75,7 @@ replicaset.apps/kubernetes1-6456498687   1         1         1       89s
 
 ### Logs
 Local logs are in /usr/tmp/logs/app.log
-The logs on AWS EKS are sent to Cloudwatch service and it can be monitored from there.
+The logs on AWS EKS are sent to Cloud watch service and it can be monitored from there.
 
 ### Rolling Update and 2 versions of the application
 To deploy two version of a microservice at the same time. 
@@ -98,11 +98,12 @@ Deploy it to AWS- EKS cluster worker nodes.
     User Name   : sa
     password    :
     ````
+  
 ### Run Application
 
 Open the browser and hit the following url to invoke the service.
 ````
 http://<url>>/person?firstName=udacity&lastName=finalproject
 ````
-THis is a post request which would create the person with those 2 names.The data would be persisted in the
-inmemory H2 database
+This is a post request which would create the person with a unique id along with first name and last name.
+The data would be persisted in the In-memory H2 database. 

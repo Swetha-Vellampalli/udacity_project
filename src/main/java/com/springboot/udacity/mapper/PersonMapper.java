@@ -1,11 +1,11 @@
-package com.springboot.udacity.assembler;
+package com.springboot.udacity.mapper;
 
 import com.springboot.udacity.domain.Person;
 import com.springboot.udacity.dto.PersonDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PersonAssembler {
+public class PersonMapper {
     public Person toPerson(String firstName, String lastName) {
         Person person = new Person();
         person.setFirstName(firstName);
